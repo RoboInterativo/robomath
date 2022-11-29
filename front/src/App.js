@@ -299,6 +299,9 @@ const handleChange2 = (event) => {
 
 
   </Box>
+  <p> This is an in-line expression <InlineMath math={'\\int_0^\\infty x^2 dx'} /> passed as <code>math prop</code>. This
+    is an in-line <InlineMath math={'\\int_0^\\infty x^2 dx'} /> expression passed as <code>children prop</code>.</p>
+  <BlockMath math={'\\int_0^\\infty x^2 dx'} />
           </TabPanel>
           <TabPanel value={value} index={1}>
             Item Two
