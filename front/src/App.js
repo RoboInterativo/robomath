@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import 'katex/dist/katex.min.css';
-import { BlockMath, InlineMath } from 'react-katex';
+import {  InlineMath } from 'react-katex';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 // import Card from '@mui/material/Card';
@@ -17,7 +17,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 
 // import InboxIcon from '@mui/icons-material/Inbox';
-
+//BlockMath
 import AppBar from '@mui/material/AppBar';
 
 import Toolbar from '@mui/material/Toolbar';
@@ -223,19 +223,20 @@ function Home() {
 }
 function Equations() {
   const [value, setValue] = React.useState(0);
-
+  const [valueA, setValueA] = React.useState(0);
+  const [valueB, setValueB] = React.useState(0);
+  const [valueC, setValueC] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const [name, setName] = React.useState('Composed TextField');
 
-const handleChange2 = (event) => {
-  setName(event.target.value);
-};
+
+
+
   return (
     <div>
      <Typography variant="h5" color="inherit" component="div">
-    Онлайн калькулятор. Решение квадратных уравнений
+    Онлайн калькулятор. Решение квадратных уравнений{valueA}
     </Typography>
     <Box
     sx={{
@@ -276,14 +277,17 @@ const handleChange2 = (event) => {
   >
     <FormControl variant="standard">
       <InputLabel htmlFor="component-simple">a</InputLabel>
-      <Input id="component-simple" value={name} onChange={handleChange} />
+      <Input type="number" id="component-simple" value={valueA}
+       onChange={(e) => setValueA(e.target.value)}
+     />
     </FormControl>
     <FormControl variant="standard">
       <InputLabel htmlFor="component-helper">b</InputLabel>
       <Input
+      type="number"
         id="component-helper"
-        value={name}
-        onChange={handleChange2}
+        value={valueB}
+      onChange={(e) => setValueB(e.target.value)}
         aria-describedby="component-helper-text"
       />
       <FormHelperText id="component-helper-text">
@@ -292,16 +296,26 @@ const handleChange2 = (event) => {
     </FormControl>
     <FormControl variant="standard">
       <InputLabel htmlFor="component-simple">c</InputLabel>
-      <Input id="component-simple" value={name} onChange={handleChange} />
+      <Input type="number" id="component-simple" value={valueC}
+      onChange={(e) => setValueC(e.target.value)}/>
     </FormControl>
 
 
 
 
   </Box>
-  <p> This is an in-line expression <InlineMath math={'\\int_0^\\infty x^2 dx'} /> passed as <code>math prop</code>. This
-    is an in-line <InlineMath math={'\\int_0^\\infty x^2 dx'} /> expression passed as <code>children prop</code>.</p>
-  <BlockMath math={'\\int_0^\\infty x^2 dx'} />
+  <p>a={valueA}</p>
+  <p>
+
+  <InlineMath math={String(valueA).replace('1','')+'x^2+'+String(valueB).replace('1','')+'x+'+String(valueC).replace('1','')+'=0'} />
+</p>
+  <p>В квадратном уравнении <InlineMath math={'ax2 + bx + c = 0'}/></p>
+  <p>  <InlineMath  math={     'a = '+valueA }/></p>
+  <p>  <InlineMath  math={     'b = '+valueB }/></p>
+  <p>  <InlineMath  math={     'c = '+valueC }/></p>
+  <p>  <InlineMath  math={'x = \\cfrac{-b \\pm \\sqrt{D}} {2a}  ,    D = b^2 - 4ac'} /></p>
+  <p>  <InlineMath  math={'D = b^2 - 4ac='+String(valueB)+'*'+String(valueA)+"-4*"+String(valueC)+'*'+valueC} /></p>
+
           </TabPanel>
           <TabPanel value={value} index={1}>
             Item Two
