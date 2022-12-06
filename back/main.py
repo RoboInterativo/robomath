@@ -14,7 +14,7 @@ class Item(BaseModel):
     a: float
     b: float
     c: float
-
+    
 class ResOut(BaseModel):
     result: str
 
@@ -43,10 +43,9 @@ async def read_item(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 async def calculate_matrix(item: Item):
-    a = np.array([[item.a, item.b], [item.a, item.b]])
-    b = np.array([1, 2])
+    a = np.array([lst[x:2+x] for x in range(0,len(lst),2)])
+    b = np.array([item.a, item.b])
     return ResOut(result='',x1=0,x2=0,d=np.linalg.solve(a, b))
-    #return np.reshape((item.a,item.b))
 
 async def determinante_computing(item: Item):
     a = np.array([[item.a, item.b]])
