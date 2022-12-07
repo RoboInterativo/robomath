@@ -37,7 +37,7 @@ class ItemMatrix(BaseModel):
     n: float
     c: List[float] = []
     nums: List[float] = []
-
+    nums_for_matrix: List[float] = []
 
 class ItemMatrixOUT(BaseModel):
     result: str
@@ -73,7 +73,7 @@ async def calculate_matrix(item: ItemMatrix):
     lst=ItemMatrix
 
     a = np.array([lst[x:2+x] for x in range(0,len(lst),2)])
-    b = np.array([item.a, item.b])
+    b = np.array([x for x in range(lst)])
     return ResOut(result='',x1=0,x2=0,d=np.linalg.solve(a, b))
 
 async def determinante_computing(item: Item):
