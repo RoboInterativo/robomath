@@ -15,6 +15,12 @@ BASE_DIR = Path(__file__).resolve().parent
 f=open(BASE_DIR / 'conf.yml')
 conf=yaml.safe_load(f)
 f.close()
+app = FastAPI()
+if conf.get('front'):
+
+    app.mount("/static", StaticFiles(directory="../front/build/static"), name="static")
+    templates = Jinja2Templates(directory="../front/build/")
+
 
 class Item(BaseModel):
     type: str
@@ -44,11 +50,6 @@ class ItemMatrixOUT(BaseModel):
     x: List[float] = []
 
 
-    app = FastAPI()
-    if conf.get('front'):
-
-        app.mount("/static", StaticFiles(directory="../front/build/static"), name="static")
-        templates = Jinja2Templates(directory="../front/build/")
 
 
 
