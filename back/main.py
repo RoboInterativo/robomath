@@ -27,7 +27,9 @@ class ItemMatrix(BaseModel):
 
     m: float
     n: float
+    c: List[float] = []
     nums: List[float] = []
+
 
 class ItemMatrixOUT(BaseModel):
     result: str
