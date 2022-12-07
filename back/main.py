@@ -44,11 +44,11 @@ class ItemMatrixOUT(BaseModel):
     x: List[float] = []
 
 
-app = FastAPI()
-if conf.get('front'):
+    app = FastAPI()
+    if conf.get('front'):
 
-    app.mount("/static", StaticFiles(directory="../front/build/static"), name="static")
-    templates = Jinja2Templates(directory="../front/build/")
+        app.mount("/static", StaticFiles(directory="../front/build/static"), name="static")
+        templates = Jinja2Templates(directory="../front/build/")
 
 
 
