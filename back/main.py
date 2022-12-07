@@ -7,6 +7,14 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from numpy import linalg as LA
 import numpy as np
+import yaml
+from pathlib import Path
+
+
+BASE_DIR = Path(__file__).resolve().parent
+f=open(BASE_DIR / 'conf.yml')
+conf=yaml.safe_load(f)
+f.close()
 
 class Item(BaseModel):
     type: str
@@ -37,8 +45,11 @@ class ItemMatrixOUT(BaseModel):
 
 
 app = FastAPI()
-app.mount("/static", StaticFiles(directory="../front/build/static"), name="static")
-templates = Jinja2Templates(directory="../front/build/")
+if conf.get('front'):
+
+    app.mount("/static", StaticFiles(directory="../front/build/static"), name="static")
+    templates = Jinja2Templates(directory="../front/build/")
+
 
 
 @app.post("/equation/",response_model=ResOut)
@@ -52,7 +63,10 @@ async def calc_square(item: Item):
 
 @app.get("/", response_class=HTMLResponse)
 async def read_item(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    if conf.get('front'):
+        return templates.TemplateResponse("index.html", {"request": request})
+    else:
+        return 'OK'
 
 @app.post("/linealg/",response_model=ItemMatrixOUT)
 async def calculate_matrix(item: ItemMatrix):
