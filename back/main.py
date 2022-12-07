@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union,List
 
 from fastapi import FastAPI, Request
 from pydantic import BaseModel
