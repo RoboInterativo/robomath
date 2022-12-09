@@ -74,9 +74,10 @@ async def calculate_matrix(item: ItemMatrix):
     lst=ItemMatrix
 
     a = np.array([lst[x:2+x] for x in range(0,len(lst),2)])
-    b = np.array([x for x in range(lst)])
-    return ResOut(result='',x1=0,x2=0,d=np.linalg.solve(a, b))
+    b = np.array(lst)
+    return ItemMatrixOUT(result='',d=np.linalg.solve(a, b))
 
+@app.post("/determinante/",response_model=ItemMatrixOUT)
 async def determinante_computing(item: Item):
-    a = np.array([[item.a, item.b]])
-    return ResOut(result='',x1=0,x2=0,d=a.shape)
+    a = np.array([item.a, item.b])
+    return ItemMatrixOUT(result='',d=a.shape)
