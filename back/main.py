@@ -71,10 +71,10 @@ async def read_item(request: Request):
 
 @app.post("/linealg/",response_model=ItemMatrixOUT)
 async def calculate_matrix(item: ItemMatrix):
-    lst=ItemMatrix
 
-    a = np.array([lst[x:2+x] for x in range(0,len(lst),2)])
-    b = np.array([x for x in range(lst)])
+
+    a = np.array([item.nums[x:2+x] for x in range(0,len(item.nums),2)])
+    b = np.array([x for x in range(len(item.c))])
     return ResOut(result='',x1=0,x2=0,d=np.linalg.solve(a, b))
 
 async def determinante_computing(item: Item):
