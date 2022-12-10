@@ -71,7 +71,13 @@ async def read_item(request: Request):
 
 @app.post("/linealg/",response_model=ItemMatrixOUT)
 async def calculate_matrix(item: ItemMatrix):
+<<<<<<< HEAD
     lst = ItemMatrix
+=======
+
+
+
+>>>>>>> dbaf512175dadb0177a76cea8344c22aafccd76b
     a = np.array([lst[x:2+x] for x in range(0,len(lst),2)])
     b = np.array(lst)
     return ItemMatrixOUT(result='',d=np.linalg.solve(a, b))
@@ -93,4 +99,4 @@ async def sum_array(item: Item):
 async def sum_array2d_with_array1d(item: Item):
     m = np.ones((item.a, item.b))
     a = np.arange(item.c)
-    return ItemMatrixOUT(result='',d=a+m)
+    return ResOut(result='',d=a+m)
