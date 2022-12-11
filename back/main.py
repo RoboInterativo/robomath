@@ -9,7 +9,7 @@ from numpy import linalg as LA
 import numpy as np
 import yaml
 from pathlib import Path
-
+import math
 
 BASE_DIR = Path(__file__).resolve().parent
 f=open(BASE_DIR / 'conf.yml')
@@ -28,6 +28,7 @@ class Item(BaseModel):
     a: float
     b: float
     c: float
+    p: float
 
 class ResOut(BaseModel):
     result: str
@@ -55,8 +56,10 @@ class ItemMatrixOUT(BaseModel):
 
 @app.post("/equation/",response_model=ResOut)
 async def calc_square(item: Item):
-    d=item.b*item.b -4*item.a*item.c
-    rez=ResOut(result='',x1=0,x2=0,d=d)
+    d = item.b * item.b - 4 * item.a * item.c
+    x1 = (math.sqrt(d) + (-item.b)) / 2 * item.a
+    x2 = (math.sqrt(d) - (-item.b)) / 2 * item.a
+    rez=ResOut(result='',x1=x1,x2=x2,d=d)
 
 
     return rez
@@ -71,13 +74,9 @@ async def read_item(request: Request):
 
 @app.post("/linealg/",response_model=ItemMatrixOUT)
 async def calculate_matrix(item: ItemMatrix):
-<<<<<<< HEAD
+
     lst = ItemMatrix
-=======
 
-
-
->>>>>>> dbaf512175dadb0177a76cea8344c22aafccd76b
     a = np.array([lst[x:2+x] for x in range(0,len(lst),2)])
     b = np.array(lst)
     return ItemMatrixOUT(result='',d=np.linalg.solve(a, b))
@@ -100,3 +99,14 @@ async def sum_array2d_with_array1d(item: Item):
     m = np.ones((item.a, item.b))
     a = np.arange(item.c)
     return ResOut(result='',d=a+m)
+
+@app.post("/gipotenuse/",response_model=ResOut)
+async def gipotenuse_Pifagor(item: Item):
+    c = item.a**2 + item.b**2
+    return ResOut(result='',d=math.sqrt(c))
+
+@app.post("/square/",response_model=ResOut)
+async def square(item: Item):
+    p = item.p // 2
+    return ResOut(result='',d=math.sqrt(p*((p-item.a)*(p-item.b)*(p-item.c))))
+
