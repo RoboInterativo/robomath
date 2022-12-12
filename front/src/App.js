@@ -1,4 +1,4 @@
-import * as React from "react";
+// import * as React from "react";
 
 import 'katex/dist/katex.min.css';
 import {  InlineMath } from 'react-katex';
@@ -35,7 +35,7 @@ import Divider from '@mui/material/Divider';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-
+import axios from 'axios';
 
 
 //import React, { useEffect, }  from "react";
@@ -52,7 +52,7 @@ import InputLabel from '@mui/material/InputLabel';
 
 // import axios from 'axios';
 
-
+import React, { useEffect,useState }  from "react";
 
 
 
@@ -233,9 +233,24 @@ function Equations() {
 
 
 
+  const [data,setData]= useState('');
+  useEffect ( () =>  {
+    axios.post('/api/profile')
+        .then(response => {
+          console.log(response);
+          setData(response.data)
+          localStorage.setItem('auth',response.data.auth)
+        })
+        .catch(error => {
+           console.error('There was an error!', error);
+        });
 
+  },[])
   return (
     <div>
+        { data.auth && <div>
+          { data.result }
+          </div>}
      <Typography variant="h5" color="inherit" component="div">
     Онлайн калькулятор. Решение квадратных уравнений{valueA}
     </Typography>
