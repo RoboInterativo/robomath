@@ -235,7 +235,7 @@ function Equations() {
 
   const [data,setData]= useState('');
   useEffect ( () =>  {
-    axios.post('/api/profile')
+    axios.post('/equation',{a: valueA,b:valueB,c: valueA})
         .then(response => {
           console.log(response);
           setData(response.data)
