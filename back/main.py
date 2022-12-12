@@ -11,6 +11,8 @@ import yaml
 from pathlib import Path
 import math
 
+
+
 BASE_DIR = Path(__file__).resolve().parent
 f=open(BASE_DIR / 'conf.yml')
 conf=yaml.safe_load(f)
@@ -29,7 +31,7 @@ class Item(BaseModel):
     b: float
     c: float
     p: float
-
+    r: float
 class ResOut(BaseModel):
     result: str
 
@@ -50,7 +52,9 @@ class ItemMatrixOUT(BaseModel):
     result: str
     x: List[float] = []
 
-
+class ResultOut(BaseModel):
+    result: str
+    rez: float
 
 
 
@@ -94,19 +98,34 @@ async def sum_array(item: Item):
     b = np.array(lst)
     return ItemMatrixOUT(result='',d=a+b)
 
-@app.post("/sums_arrays/", response_model=ResOut)
+@app.post("/sums_arrays/", response_model=ResultOut)
 async def sum_array2d_with_array1d(item: Item):
     m = np.ones((item.a, item.b))
     a = np.arange(item.c)
-    return ResOut(result='',d=a+m)
+    return ResultOut(result='',rez=a+m)
 
-@app.post("/gipotenuse/",response_model=ResOut)
+@app.post("/gipotenuse/",response_model=ResultOut)
 async def gipotenuse_Pifagor(item: Item):
     c = item.a**2 + item.b**2
-    return ResOut(result='',d=math.sqrt(c))
+    return ResultOut(result='',rez=math.sqrt(c))
 
-@app.post("/square/",response_model=ResOut)
+@app.post("/square/",response_model=ResultOut)
 async def square(item: Item):
     p = item.p // 2
-    return ResOut(result='',d=math.sqrt(p*((p-item.a)*(p-item.b)*(p-item.c))))
+    return ResultOut(result='',rez=math.sqrt(p*((p-item.a)*(p-item.b)*(p-item.c))))
 
+@app.post("/areasquare/",response_model=ResultOut)
+async def square_area(item: Item):
+    return ResultOut(result='',rez = item.a * 4)
+
+@app.post("/arearectangle/",response_model=ResultOut)
+async def rectangle_area(item: Item):
+    return ResultOut(result='', rez = item.a * item.b)
+
+@app.post("/areacircle/", response_model = ResultOut)
+async def circle_area(item: Item):
+    return ResultOut(result='', rez = math.pi * item.r**2)
+
+#@app.post("/matrix_distance/",response_model=ItemMatrixOUT)
+#async def distance_between_square(item: Item):
+#    return ResOut(result='',d=np.sum((item.a[:,np.newaxis,:] - item.b[np.newaxis,:,:])**2, axis=-1))
