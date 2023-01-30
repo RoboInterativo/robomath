@@ -17,6 +17,11 @@ BASE_DIR = Path(__file__).resolve().parent
 f=open(BASE_DIR / 'conf.yml')
 conf=yaml.safe_load(f)
 f.close()
+
+f=open(BASE_DIR / 'db.yml')
+db=yaml.safe_load(f)
+f.close()
+
 app = FastAPI()
 if conf.get('front'):
 
@@ -56,7 +61,13 @@ class ResultOut(BaseModel):
     result: str
     rez: float
 
+class SubCategorie(BaseModel):
+    name: str
+    slag: str
 
+class Categorie(BaseModel):
+    name: str
+    sub: list[]=[]
 
 @app.post("/equation/",response_model=ResOut)
 async def calc_square(item: Item):
@@ -67,6 +78,11 @@ async def calc_square(item: Item):
 
 
     return rez
+
+@app.get("/api/main", response_model=ResPages)
+async def read_item(request: Request):
+        rez=Categorie(name= '',sub=db['categorie'][0]['sub'])
+        return rez
 
 
 @app.get("/", response_class=HTMLResponse)

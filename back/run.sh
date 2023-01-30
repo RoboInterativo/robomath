@@ -1,1 +1,2 @@
-uvicorn main:app --reload
+gunicorn flask_main:app
+#uvicorn main:app --reload
