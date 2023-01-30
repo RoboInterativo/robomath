@@ -1,7 +1,7 @@
-import * as React from "react";
+// import * as React from "react";
 
 import 'katex/dist/katex.min.css';
-import {  InlineMath } from 'react-katex';
+import {  InlineMath, BlockMath } from 'react-katex';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 // import Card from '@mui/material/Card';
@@ -35,11 +35,11 @@ import Divider from '@mui/material/Divider';
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-
+import axios from 'axios';
 
 
 //import React, { useEffect, }  from "react";
-import { BrowserRouter as Router ,    Routes,    Route,    Link  }  from "react-router-dom";
+import { BrowserRouter as Router ,    Routes,    Route,    Link ,useParams }  from "react-router-dom";
 //useNavigate,
 //
 
@@ -52,7 +52,7 @@ import InputLabel from '@mui/material/InputLabel';
 
 // import axios from 'axios';
 
-
+import React, { useEffect,useState }  from "react";
 
 
 
@@ -87,7 +87,31 @@ function App() {
 // my_base64_jpgData = base64.b64encode(my_stringIObytes.read())
 
 //  <ThemeProvider theme={}>
+//---------------------------------------
+//     { data1 && data1.result.categories.map((item)=>
+//         <div key={item.name}>
+//         { item.sub.map((item2)=>
+//
 
+//
+//       )}
+//       </div >
+// )}
+
+const [data1,setData1]= useState('');
+
+useEffect ( () =>  {
+  axios.post('/api/main',{})
+      .then(response => {
+        console.log(response);
+        setData1(response.data)
+
+      })
+      .catch(error => {
+         console.error('There was an error!', error);
+      });
+
+},[])
   return (
 
   <Router>
@@ -117,7 +141,13 @@ function App() {
     <Routes>
       <Route path="/" element={<Home  />} />
 
-      <Route  path="/equations" element={    <Equations  />  } />
+
+
+
+    <Route  path=":slug1/:slug2"  element={    <Equations   />  } />
+
+
+
 
 
 
@@ -126,8 +156,10 @@ function App() {
     </Routes>
 
     <Divider light />
-    Asd
- <ThemeProvider theme={darkTheme}>
+
+    { data1 && data1.result.categories.map((item)=>
+      <div key={item.name}>
+      <ThemeProvider theme={darkTheme}>
       <Box
       sx={{
                 p: 2,
@@ -140,36 +172,26 @@ function App() {
 
       >
       <Paper>
-        Онлайн калькуляторы. Решение уравнений
+        {item.name}
         </Paper>
         </Box>
-</ThemeProvider >
+    </ThemeProvider >
     <List component="nav" aria-label="main mailbox folders">
-
-
-
-        <Link  to="/equations">
+    { item.sub.map((item2)=>
+        <Link  key={item2.name} to={"/"+item.slug +"/" + item2.slug}>
                <ListItemButton>
 
-                 <ListItemText primary="Решение квадратных уравнений" />
+                 <ListItemText primary={item2.name} />
                </ListItemButton>
-                </Link>
-               <ListItemButton>
-
-                 <ListItemText primary="Решение квадратных уравнений" />
-               </ListItemButton>
-               <ListItemButton>
-
-                 <ListItemText primary="Решение квадратных уравнений" />
-               </ListItemButton>
-               <ListItemButton>
-
-                 <ListItemText primary="Решение квадратных уравнений" />
-               </ListItemButton>
+          </Link>
+        )}
+        </List>
+        </div>
+         )}
 
 
 
-             </List>
+
     </Box>
   </Grid>
   <Grid item xs={10} md={11}>
@@ -222,43 +244,140 @@ function Home() {
     <div>HOME</div>
   );
 }
+// <Box
+//   component="form"
+//   sx={{
+//     '& > :not(style)': { m: 1 },
+//   }}
+//   noValidate
+//   autoComplete="off"
+// >
+//   <FormControl variant="standard">
+//     <InputLabel htmlFor="component-simple">a</InputLabel>
+//     <Input type="number" id="component-simple" value={valueA}
+//      onChange={(e) => setValueA(e.target.value)}
+//    />
+//   </FormControl>
+//   <FormControl variant="standard">
+//     <InputLabel htmlFor="component-helper">b</InputLabel>
+//     <Input
+//     type="number"
+//       id="component-helper"
+//       value={valueB}
+//     onChange={(e) => setValueB(e.target.value)}
+//       aria-describedby="component-helper-text"
+//     />
+//     <FormHelperText id="component-helper-text">
+//       Some important helper text
+//     </FormHelperText>
+//   </FormControl>
+//   <FormControl variant="standard">
+//     <InputLabel htmlFor="component-simple">c</InputLabel>
+//     <Input type="number" id="component-simple" value={valueC}
+//     onChange={(e) => setValueC(e.target.value)}/>
+//   </FormControl>
+//
+//
+//
+// value={newState[`${item4.input}`]}
+// </Box>
+
+
+// function typeOf(obj) {
+//   const stringified = obj.toString();
+//   const type = stringified.split(' ')[1].slice(0, -1);
+//
+//   return type.toLowerCase();
+// }
+
 function Equations() {
+
+  const { slug1,slug2 } = useParams();
   const [value, setValue] = React.useState(0);
-  const [valueA, setValueA] = React.useState(0);
-  const [valueB, setValueB] = React.useState(0);
-  const [valueC, setValueC] = React.useState(0);
+
+  const [newState, setNewState] = React.useState({"a":"1","b":"1","z":"1"});
+  // const [valueA, setValueA] = React.useState(0);
+  // const [valueB, setValueB] = React.useState(0);
+  // const [valueC, setValueC] = React.useState(0);
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    setValue({newValue});
   };
 
+   const handleChange2 = (event, newState) => {
+     console.log("Before" );
+     console.log(JSON.stringify(newState) );
+     //console.log( typeOf newState )
+     if (typeof newState !== 'undefined') {
+
+        let state=newState
+
+
+     //state.set (event.target.id,event.target.value);
+     state[event.target.id]= event.target.value
+     setNewState(state);
+     console.log(JSON.stringify(state) );
+     console.log(JSON.stringify(newState) );
+   } else {
+     let state =  new Map()
+
+     console.log(JSON.stringify( event.target.id) );
+     console.log(JSON.stringify( event.target.value) );
+     //state.set (event.target.id,event.target.value);
+     state[event.target.id]= event.target.value
+     console.log(JSON.stringify(state) );
+
+
+     setNewState( state);
+    console.log(JSON.stringify(newState) );
+   }
+   };
 
 
 
+ const [data,setData]= useState('');
+  useEffect ( () =>  {
+    axios.post('/api/detail',{slug1: slug1,slug2:slug2})
+        .then(response => {
+          console.log(response);
+          setData(response.data)
+
+        })
+        .catch(error => {
+           console.error('There was an error!', error);
+        });
+
+  },[])
   return (
     <div>
+      {slug1}{slug2}
+
+        { data && data.result.map((item)=>
+
+        <div key={item.name}>
+
+
+
      <Typography variant="h5" color="inherit" component="div">
-    Онлайн калькулятор. Решение квадратных уравнений{valueA}
+    {item.name}
     </Typography>
     <Box
     sx={{
               p: 2,
               bgcolor: '#eeeeff',
               display: 'grid',
-              gridTemplateColumns: { md: '1fr 1fr' },
               gap: 2,
-              borderRadius: 5
+              borderRadius: 5,
+              width: '100%'
             }}
 
     >
 
-    Используя этот онлайн калькулятор для решения квадратных уравнений, вы сможете очень просто и быстро найти корни квадратного уравнения.
-
-Воспользовавшись онлайн калькулятором для решения квадратных уравнений, вы получите детальное решение вашего примера, которое позволит понять алгоритм решения задач и закрепить пройденный на уроках материал.
-
+  {item.text}
 
 
 
     </Box>
+
     <Box sx={{ width: '100%' }}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
@@ -268,7 +387,10 @@ function Equations() {
             </Tabs>
           </Box>
           <TabPanel value={value} index={0}>
-          <Box
+  <p>формула
+
+  <Box
+
     component="form"
     sx={{
       '& > :not(style)': { m: 1 },
@@ -276,55 +398,84 @@ function Equations() {
     noValidate
     autoComplete="off"
   >
-    <FormControl variant="standard">
-      <InputLabel htmlFor="component-simple">a</InputLabel>
-      <Input type="number" id="component-simple" value={valueA}
-       onChange={(e) => setValueA(e.target.value)}
+
+    { item.calculator.form.map((item4)=>
+    <FormControl key={item4.input} variant="standard">
+      <InputLabel htmlFor="component-simple">{item4.input}</InputLabel>
+      <Input type="number" id={item4.input} value={newState[item4.input]}
+       onChange={handleChange2}
      />
-    </FormControl>
-    <FormControl variant="standard">
-      <InputLabel htmlFor="component-helper">b</InputLabel>
-      <Input
-      type="number"
-        id="component-helper"
-        value={valueB}
-      onChange={(e) => setValueB(e.target.value)}
-        aria-describedby="component-helper-text"
-      />
+
+
       <FormHelperText id="component-helper-text">
         Some important helper text
       </FormHelperText>
-    </FormControl>
-    <FormControl variant="standard">
-      <InputLabel htmlFor="component-simple">c</InputLabel>
-      <Input type="number" id="component-simple" value={valueC}
-      onChange={(e) => setValueC(e.target.value)}/>
-    </FormControl>
+  </FormControl> )}
 
 
 
 
   </Box>
-  <p>a={valueA}</p>
-  <p>
+  </p>
+  <p>a={newState && <p>
+    {JSON.stringify(newState)}
+    </p>}
+  </p>
+  <p>a={newState['a'] && <p>{newState['a']}</p>}</p>
 
-  <InlineMath math={String(valueA).replace('1','')+'x^2+'+String(valueB).replace('1','')+'x+'+String(valueC).replace('1','')+'=0'} />
-</p>
-  <p>В квадратном уравнении <InlineMath math={'ax2 + bx + c = 0'}/></p>
-  <p>  <InlineMath  math={     'a = '+valueA }/></p>
-  <p>  <InlineMath  math={     'b = '+valueB }/></p>
-  <p>  <InlineMath  math={     'c = '+valueC }/></p>
-  <p>  <InlineMath  math={'x = \\cfrac{-b \\pm \\sqrt{D}} {2a}  ,    D = b^2 - 4ac'} /></p>
-  <p>  <InlineMath  math={'D = b^2 - 4ac='+String(valueB)+'*'+String(valueA)+"-4*"+String(valueC)+'*'+valueC} /></p>
 
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            Item Two
           </TabPanel>
           <TabPanel value={value} index={2}>
-            Item Three
+              { item.theory.map((item2)=>
+
+                  <div key={item2.blk_id}>
+                  <Box
+                  sx={{
+                            p: 2,
+                            m:2,
+                            bgcolor: '#eeeeff',
+                            display: 'grid',
+                            borderRadius: 5,
+                            width: '100%'
+                          }}
+
+                  >
+
+
+                  { item2.container.map((item3)=>
+                    <div key={item3.id}>
+
+                    {item3.type==="center_math" &&
+
+                  <p><InlineMath  math={item3.text}/></p>
+                    }
+                    {item3.type==="math" &&
+
+                  <InlineMath  math={item3.text}/>
+                    }
+
+                    {item3.type==="block_math" &&
+                  <BlockMath  math={item3.text}/>
+                    }
+                    {item3.type==="text" &&
+                    <p>{item3.text}</p>
+                    }
+
+
+
+
+                  </div>
+                )}
+                    </Box>
+                   </div>
+              )}
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            instruction
           </TabPanel>
         </Box>
+        </div>
+      )}
     </div>
   );
 }
