@@ -293,43 +293,56 @@ function Home() {
 function Equations() {
 
   const { slug1,slug2 } = useParams();
-  const [value, setValue] = React.useState(0);
 
-  const [newState, setNewState] = React.useState({"a":"1","b":"1","z":"1"});
+
+ const [newState, setNewState] = React.useState({});
+  //let newState=new Map()
+  //(Object.entries({}))
   // const [valueA, setValueA] = React.useState(0);
   // const [valueB, setValueB] = React.useState(0);
   // const [valueC, setValueC] = React.useState(0);
-  const handleChange = (event, newValue) => {
-    setValue({newValue});
+  const [tabvalue, setTabValue] = React.useState(0);
+  const handleChange = (event,newValue ) => {
+
+    setTabValue(newValue);
   };
 
-   const handleChange2 = (event, newState) => {
+   const handleChange2 = (event) => {
      console.log("Before" );
      console.log(JSON.stringify(newState) );
+     // let value=event.target.value
+     // let name=event.target.id
      //console.log( typeOf newState )
      if (typeof newState !== 'undefined') {
+       setNewState({})
+     }
 
         let state=newState
 
 
      //state.set (event.target.id,event.target.value);
-     state[event.target.id]= event.target.value
-     setNewState(state);
-     console.log(JSON.stringify(state) );
-     console.log(JSON.stringify(newState) );
-   } else {
-     let state =  new Map()
+     //state[event.target.id]= event.target.value
+     //setNewState(state);
 
-     console.log(JSON.stringify( event.target.id) );
-     console.log(JSON.stringify( event.target.value) );
+     // console.log(JSON.stringify(newState) );
+   //} else {
+    // let state =  new Map()
+    // console.log(typeof event.target.id);
+   //  console.log( typeof name );
+   // console.log( typeof value );
+   //    console.log( name );
+   //   console.log( value );
+     // console.log(newState.size); // 1
+     // console.log(...newState); // ["language", "JavaScript"]
      //state.set (event.target.id,event.target.value);
-     state[event.target.id]= event.target.value
-     console.log(JSON.stringify(state) );
+     state[event.target.id] = event.target.value
+     setNewState(state)
 
 
-     setNewState( state);
+
+     //setNewState( state);
     console.log(JSON.stringify(newState) );
-   }
+   //}
    };
 
 
@@ -380,13 +393,13 @@ function Equations() {
 
     <Box sx={{ width: '100%' }}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+            <Tabs value={tabvalue} onChange={handleChange} aria-label="basic tabs example">
               <Tab label="Калькулятор" {...a11yProps(0)} />
               <Tab label="Инструкция" {...a11yProps(1)} />
               <Tab label="Теория" {...a11yProps(2)} />
             </Tabs>
           </Box>
-          <TabPanel value={value} index={0}>
+          <TabPanel value={tabvalue} index={0}>
   <p>формула
 
   <Box
@@ -425,7 +438,7 @@ function Equations() {
 
 
           </TabPanel>
-          <TabPanel value={value} index={2}>
+          <TabPanel value={tabvalue} index={2}>
               { item.theory.map((item2)=>
 
                   <div key={item2.blk_id}>
@@ -470,7 +483,7 @@ function Equations() {
                    </div>
               )}
           </TabPanel>
-          <TabPanel value={value} index={1}>
+          <TabPanel value={tabvalue} index={1}>
             instruction
           </TabPanel>
         </Box>
