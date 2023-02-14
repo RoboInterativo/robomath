@@ -302,12 +302,18 @@ function Equations() {
   // const [valueB, setValueB] = React.useState(0);
   // const [valueC, setValueC] = React.useState(0);
   const [tabvalue, setTabValue] = React.useState(0);
+  const [status, setStatus] = React.useState(false);
   const handleChange = (event,newValue ) => {
 
     setTabValue(newValue);
   };
 
    const handleChange2 = (event) => {
+     if (status ){
+       setStatus(false)
+     } else {
+       setStatus(true)
+     }
      console.log("Before" );
      console.log(JSON.stringify(newState) );
      // let value=event.target.value
@@ -348,8 +354,25 @@ function Equations() {
 
 
  const [data,setData]= useState('');
+const [data2,setData2]= useState('');
+
+ useEffect ( () =>  {
+
+   axios.post('/api/сalc',{slug1: slug1,slug2:slug2,params:newState})
+       .then(response => {
+         console.log(response);
+         setData2(response.data)
+
+       })
+       .catch(error => {
+          console.error('There was an error!', error);
+       });
+      console.log(data2)
+ },[status])
+
   useEffect ( () =>  {
-    axios.post('/api/detail',{slug1: slug1,slug2:slug2})
+
+    axios.post('/api/detail',{slug1: slug1,slug2:slug2,params:newState})
         .then(response => {
           console.log(response);
           setData(response.data)
@@ -430,10 +453,15 @@ function Equations() {
 
   </Box>
   </p>
+
   <p>a={newState && <p>
     {JSON.stringify(newState)}
     </p>}
+
   </p>
+    { data2 && data2.result.map((item)=>
+  <p key={item.id}><InlineMath  math={item.text}/></p>
+  )}
   <p>a={newState['a'] && <p>{newState['a']}</p>}</p>
 
 

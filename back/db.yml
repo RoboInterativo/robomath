@@ -10,6 +10,22 @@ article:
             - input: a
             - input: b
             - input: c
+          result_text:
+            - id: 1
+              type: math
+              text: |
+                a={{a}})\\
+                b={{b}})\\
+                c={{c}})
+            - id: 2
+              type: math
+              text: "a={{a}}"
+            - id: 3
+              type: math
+              text: "D = b^2 - 4ac=  ({{b}})^2-4*({{a}})   * ({{c}})   = {{d}}"
+
+
+
         theory:
           - blk_id: 1
             container:
