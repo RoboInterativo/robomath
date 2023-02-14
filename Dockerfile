@@ -11,7 +11,7 @@ ENV HOME=/opt
 WORKDIR /opt
 
 WORKDIR /opt/
-COPY back /opt/
+COPY back /opt
 COPY --from=builder /opt/templates
 RUN pip install virtualenv  &&\
     python -m virtualenv /opt/venv &&\
