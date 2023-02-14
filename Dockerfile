@@ -7,5 +7,5 @@ RUN npm install && npm run build
 FROM python:3.8-slim
 
 WORKDIR /root/
-COPY --from=builder /opt/front /opt
+COPY --from=builder /opt/front/build /opt/build
 CMD ["./app"]
