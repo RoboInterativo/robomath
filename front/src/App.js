@@ -79,25 +79,6 @@ function App() {
 
 
 
-//
-// import cStringIO
-// my_stringIObytes = cStringIO.StringIO()
-// plt.savefig(my_stringIObytes, format='jpg')
-// my_stringIObytes.seek(0)
-// my_base64_jpgData = base64.b64encode(my_stringIObytes.read())
-
-//  <ThemeProvider theme={}>
-//---------------------------------------
-//     { data1 && data1.result.categories.map((item)=>
-//         <div key={item.name}>
-//         { item.sub.map((item2)=>
-//
-
-//
-//       )}
-//       </div >
-// )}
-
 const [data1,setData1]= useState('');
 
 useEffect ( () =>  {
@@ -195,7 +176,7 @@ useEffect ( () =>  {
     </Box>
   </Grid>
   <Grid item xs={10} md={11}>
-  Hello
+  
   </Grid >
 
 </Grid>
@@ -241,54 +222,10 @@ function a11yProps(index) {
 }
 function Home() {
   return (
-    <div>HOME</div>
+    <div></div>
   );
 }
-// <Box
-//   component="form"
-//   sx={{
-//     '& > :not(style)': { m: 1 },
-//   }}
-//   noValidate
-//   autoComplete="off"
-// >
-//   <FormControl variant="standard">
-//     <InputLabel htmlFor="component-simple">a</InputLabel>
-//     <Input type="number" id="component-simple" value={valueA}
-//      onChange={(e) => setValueA(e.target.value)}
-//    />
-//   </FormControl>
-//   <FormControl variant="standard">
-//     <InputLabel htmlFor="component-helper">b</InputLabel>
-//     <Input
-//     type="number"
-//       id="component-helper"
-//       value={valueB}
-//     onChange={(e) => setValueB(e.target.value)}
-//       aria-describedby="component-helper-text"
-//     />
-//     <FormHelperText id="component-helper-text">
-//       Some important helper text
-//     </FormHelperText>
-//   </FormControl>
-//   <FormControl variant="standard">
-//     <InputLabel htmlFor="component-simple">c</InputLabel>
-//     <Input type="number" id="component-simple" value={valueC}
-//     onChange={(e) => setValueC(e.target.value)}/>
-//   </FormControl>
-//
-//
-//
-// value={newState[`${item4.input}`]}
-// </Box>
 
-
-// function typeOf(obj) {
-//   const stringified = obj.toString();
-//   const type = stringified.split(' ')[1].slice(0, -1);
-//
-//   return type.toLowerCase();
-// }
 
 function Equations() {
 
@@ -296,11 +233,7 @@ function Equations() {
 
 
  const [newState, setNewState] = React.useState({});
-  //let newState=new Map()
-  //(Object.entries({}))
-  // const [valueA, setValueA] = React.useState(0);
-  // const [valueB, setValueB] = React.useState(0);
-  // const [valueC, setValueC] = React.useState(0);
+
   const [tabvalue, setTabValue] = React.useState(0);
   const [status, setStatus] = React.useState(false);
   const handleChange = (event,newValue ) => {
@@ -316,9 +249,7 @@ function Equations() {
      }
      console.log("Before" );
      console.log(JSON.stringify(newState) );
-     // let value=event.target.value
-     // let name=event.target.id
-     //console.log( typeOf newState )
+
      if (typeof newState !== 'undefined') {
        setNewState({})
      }
@@ -326,21 +257,7 @@ function Equations() {
         let state=newState
 
 
-     //state.set (event.target.id,event.target.value);
-     //state[event.target.id]= event.target.value
-     //setNewState(state);
 
-     // console.log(JSON.stringify(newState) );
-   //} else {
-    // let state =  new Map()
-    // console.log(typeof event.target.id);
-   //  console.log( typeof name );
-   // console.log( typeof value );
-   //    console.log( name );
-   //   console.log( value );
-     // console.log(newState.size); // 1
-     // console.log(...newState); // ["language", "JavaScript"]
-     //state.set (event.target.id,event.target.value);
      state[event.target.id] = event.target.value
      setNewState(state)
 
@@ -353,48 +270,49 @@ function Equations() {
 
 
 
- const [data,setData]= useState('');
-const [data2,setData2]= useState('');
+const [data3, setData3]= useState('');
+
+const [data2, setData2]= useState('');
 
  useEffect ( () =>  {
 
    axios.post('/api/сalc',{slug1: slug1,slug2:slug2,params:newState})
        .then(response => {
          console.log(response);
-         setData2(response.data)
+         setData3(response.data)
 
        })
        .catch(error => {
           console.error('There was an error!', error);
        });
-      console.log(data2)
+      console.log(data3)
  },[status])
 
   useEffect ( () =>  {
 
-    axios.post('/api/detail',{slug1: slug1,slug2:slug2,params:newState})
+    axios.post('/api/detail',{slug1: slug1,slug2:slug2})
         .then(response => {
           console.log(response);
-          setData(response.data)
+
+          setData2(response.data)
 
         })
         .catch(error => {
            console.error('There was an error!', error);
         });
-
+console.log(data2)
   },[])
   return (
-    <div>
-      {slug1}{slug2}
+    <div>DEBUG  {slug1} и {slug2}
 
-        { data && data.result.map((item)=>
+        { data2 && data2.result.map((data2item)=>
 
-        <div key={item.name}>
+        <div key={data2item.name}>
 
 
 
      <Typography variant="h5" color="inherit" component="div">
-    {item.name}
+    {data2item.name}
     </Typography>
     <Box
     sx={{
@@ -408,7 +326,7 @@ const [data2,setData2]= useState('');
 
     >
 
-  {item.text}
+  {data2item.text}
 
 
 
@@ -435,7 +353,7 @@ const [data2,setData2]= useState('');
     autoComplete="off"
   >
 
-    { item.calculator.form.map((item4)=>
+    { data2item.calculator.form.map((item4)=>
     <FormControl key={item4.input} variant="standard">
       <InputLabel htmlFor="component-simple">{item4.input}</InputLabel>
       <Input type="number" id={item4.input} value={newState[item4.input]}
@@ -454,20 +372,23 @@ const [data2,setData2]= useState('');
   </Box>
   </p>
 
-  <p>a={newState && <p>
+  <p>DEBUG {newState && <p>
     {JSON.stringify(newState)}
     </p>}
 
   </p>
-    { data2 && data2.result.map((item)=>
-  <p key={item.id}><InlineMath  math={item.text}/></p>
+
+
+  { data3 && data3.result.result_text.map((data3item)=>
+    <div key={data3item.id}>
+    <p><InlineMath  math={data3item.text}/></p>
+    </div>
   )}
-  <p>a={newState['a'] && <p>{newState['a']}</p>}</p>
 
 
           </TabPanel>
           <TabPanel value={tabvalue} index={2}>
-              { item.theory.map((item2)=>
+              { data2item.theory.map((item2)=>
 
                   <div key={item2.blk_id}>
                   <Box

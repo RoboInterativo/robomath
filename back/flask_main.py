@@ -40,6 +40,25 @@ def calculate(slug1,slug2,params):
     f=open(BASE_DIR / 'db.yml')
     db=yaml.safe_load(f)
     f.close()
+    d=s=p=x1=x2=0
+    result_text=db.get('article').get(slug1).get(slug2)[0].get('calculator').get('result_text')
+    if slug1=='figures_perimeter':
+        if slug2=='triangle':
+            a=float (params['a'])
+            b=float (params['b'])
+            c=float (params['c'])
+            p=(a+b+c)/2
+            s=sqrt(p*(p - a)*(p - b)*(p - c))
+            result={'a':a,
+                    'b':b,
+                    'c':c,
+                    "d": d,
+                    's':s,
+                    'p':p,
+                    'result_note': ""
+                    }
+            return result_text_render(result_text,result)
+
 
     if slug1=='equation':
         if slug2=='quadratic':
@@ -49,7 +68,7 @@ def calculate(slug1,slug2,params):
 
 
             d=b*b-4*a*c
-            result_text=db.get('article').get(slug1).get(slug2)[0].get('calculator').get('result_text')
+
             if d>=0:
                 x1=(-b+sqrt(d))/(2*a)
                 x2=(-b+sqrt(d))/(2*a)
@@ -58,16 +77,18 @@ def calculate(slug1,slug2,params):
                         'c':c,
                         "d": d,
                         'x1':x1,
-                        'x2':x2
+                        'x2':x2,
+                        'result_note': "D > 0\  есть\   корни"
                         }
             else:
-                x1=x2=0
+                x1=x2='нет'
                 result={'a':a,
                         'b':b,
                         'c':c,
                         "d": d,
                         'x1':x1,
-                        'x2':x2
+                        'x2':x2,
+                        'result_note': "D < 0\  нет\    действительных\  корней"
                         }
             return result_text_render(result_text,result)
 
@@ -95,9 +116,9 @@ def calc():
     if rez:
 
         params=data.get('params')
-        result=calculate(slug1,slug2,params)
+        result={"valid":True,"result_text": calculate(slug1,slug2,params)}
     else:
-        result={"valid":False}
+        result={"valid":False,"result_text":[]}
 
 
 
@@ -111,8 +132,9 @@ def detail():
     data = request.get_json()
     slug1= data.get('slug1')
     slug2= data.get('slug2')
-
-    return jsonify({'result': db.get('article').get(slug1).get(slug2)  }  )
+    rez= {'result': db.get('article').get(slug1).get(slug2)  }
+    print (rez)
+    return jsonify(rez)
 
 @app.route("/api/main", methods=['POST'])
 def list_cat():
