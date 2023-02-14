@@ -4,7 +4,7 @@ COPY front ./
 RUN npm install && npm run build
 
 
-FROM python3.8:latest
+FROM 3.8-slim
 
 WORKDIR /root/
 COPY --from=builder /opt/front /opt
