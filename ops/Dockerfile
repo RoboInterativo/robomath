@@ -1,4 +1,3 @@
-FROM node:16.14.0
+FROM node:16.14.0 as BUILDER
 WORKDIR /opt/front
-RUN echo "npm install && npm run build">/home/build.sh &&chmod +x /home/build.sh
-CMD /home/build.sh
+RUN npm install && npm run build
