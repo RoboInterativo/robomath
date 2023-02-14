@@ -16,6 +16,7 @@ COPY --from=builder  /opt/front/build /opt/templates
 RUN pip install virtualenv  &&\
     python -m virtualenv /opt/venv &&\
     chown 1001:1001 /opt/ -R
+USER 1001
 
 RUN . /opt/venv/bin/activate &&\
     pip install pip --upgrade &&\
