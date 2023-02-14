@@ -6,6 +6,18 @@ RUN npm install && npm run build
 
 FROM python:3.8-slim
 
-WORKDIR /root/
-COPY --from=builder /opt/front/build /opt/build
-CMD ["./app"]
+EXPOSE 8000
+ENV HOME=/opt
+WORKDIR /opt
+
+WORKDIR /opt/
+COPY back /opt/
+COPY --from=builder /opt/templates
+RUN pip install virtualenv  &&\
+    python -m virtualenv /opt/venv &&\
+    chown 1001:1001 /opt/ -R
+
+RUN . /opt/venv/bin/activate &&\
+    pip install pip --upgrade &&\
+    pip install -r  /opt/requirements.txt
+CMD ["gunicorn flask_main:app"]
