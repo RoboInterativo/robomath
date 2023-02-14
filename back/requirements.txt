@@ -4,3 +4,4 @@ typing_extensions
 uvicorn
 Flask
 gunicorn
+pyyaml
