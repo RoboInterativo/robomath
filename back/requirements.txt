@@ -2,3 +2,5 @@ fastapi
 Jinja2
 typing_extensions
 uvicorn
+Flask
+gunicorn

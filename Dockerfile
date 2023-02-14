@@ -21,4 +21,4 @@ USER 1001
 RUN . /opt/venv/bin/activate &&\
     pip install pip --upgrade &&\
     pip install -r  /opt/requirements.txt
-CMD ["gunicorn flask_main:app"]
+CMD ["/opt/venv/bin/gunicorn flask_main:app"]
