@@ -79,25 +79,6 @@ function App() {
 
 
 
-//
-// import cStringIO
-// my_stringIObytes = cStringIO.StringIO()
-// plt.savefig(my_stringIObytes, format='jpg')
-// my_stringIObytes.seek(0)
-// my_base64_jpgData = base64.b64encode(my_stringIObytes.read())
-
-//  <ThemeProvider theme={}>
-//---------------------------------------
-//     { data1 && data1.result.categories.map((item)=>
-//         <div key={item.name}>
-//         { item.sub.map((item2)=>
-//
-
-//
-//       )}
-//       </div >
-// )}
-
 const [data1,setData1]= useState('');
 
 useEffect ( () =>  {
@@ -195,7 +176,7 @@ useEffect ( () =>  {
     </Box>
   </Grid>
   <Grid item xs={10} md={11}>
-  Hello
+  
   </Grid >
 
 </Grid>
@@ -241,124 +222,97 @@ function a11yProps(index) {
 }
 function Home() {
   return (
-    <div>HOME</div>
+    <div></div>
   );
 }
-// <Box
-//   component="form"
-//   sx={{
-//     '& > :not(style)': { m: 1 },
-//   }}
-//   noValidate
-//   autoComplete="off"
-// >
-//   <FormControl variant="standard">
-//     <InputLabel htmlFor="component-simple">a</InputLabel>
-//     <Input type="number" id="component-simple" value={valueA}
-//      onChange={(e) => setValueA(e.target.value)}
-//    />
-//   </FormControl>
-//   <FormControl variant="standard">
-//     <InputLabel htmlFor="component-helper">b</InputLabel>
-//     <Input
-//     type="number"
-//       id="component-helper"
-//       value={valueB}
-//     onChange={(e) => setValueB(e.target.value)}
-//       aria-describedby="component-helper-text"
-//     />
-//     <FormHelperText id="component-helper-text">
-//       Some important helper text
-//     </FormHelperText>
-//   </FormControl>
-//   <FormControl variant="standard">
-//     <InputLabel htmlFor="component-simple">c</InputLabel>
-//     <Input type="number" id="component-simple" value={valueC}
-//     onChange={(e) => setValueC(e.target.value)}/>
-//   </FormControl>
-//
-//
-//
-// value={newState[`${item4.input}`]}
-// </Box>
 
-
-// function typeOf(obj) {
-//   const stringified = obj.toString();
-//   const type = stringified.split(' ')[1].slice(0, -1);
-//
-//   return type.toLowerCase();
-// }
 
 function Equations() {
 
   const { slug1,slug2 } = useParams();
-  const [value, setValue] = React.useState(0);
 
-  const [newState, setNewState] = React.useState({"a":"1","b":"1","z":"1"});
-  // const [valueA, setValueA] = React.useState(0);
-  // const [valueB, setValueB] = React.useState(0);
-  // const [valueC, setValueC] = React.useState(0);
-  const handleChange = (event, newValue) => {
-    setValue({newValue});
+
+ const [newState, setNewState] = React.useState({});
+
+  const [tabvalue, setTabValue] = React.useState(0);
+  const [status, setStatus] = React.useState(false);
+  const handleChange = (event,newValue ) => {
+
+    setTabValue(newValue);
   };
 
-   const handleChange2 = (event, newState) => {
+   const handleChange2 = (event) => {
+     if (status ){
+       setStatus(false)
+     } else {
+       setStatus(true)
+     }
      console.log("Before" );
      console.log(JSON.stringify(newState) );
-     //console.log( typeOf newState )
+
      if (typeof newState !== 'undefined') {
+       setNewState({})
+     }
 
         let state=newState
 
 
-     //state.set (event.target.id,event.target.value);
-     state[event.target.id]= event.target.value
-     setNewState(state);
-     console.log(JSON.stringify(state) );
-     console.log(JSON.stringify(newState) );
-   } else {
-     let state =  new Map()
 
-     console.log(JSON.stringify( event.target.id) );
-     console.log(JSON.stringify( event.target.value) );
-     //state.set (event.target.id,event.target.value);
-     state[event.target.id]= event.target.value
-     console.log(JSON.stringify(state) );
+     state[event.target.id] = event.target.value
+     setNewState(state)
 
 
-     setNewState( state);
+
+     //setNewState( state);
     console.log(JSON.stringify(newState) );
-   }
+   //}
    };
 
 
 
- const [data,setData]= useState('');
+const [data3, setData3]= useState('');
+
+const [data2, setData2]= useState('');
+
+ useEffect ( () =>  {
+
+   axios.post('/api/сalc',{slug1: slug1,slug2:slug2,params:newState})
+       .then(response => {
+         console.log(response);
+         setData3(response.data)
+
+       })
+       .catch(error => {
+          console.error('There was an error!', error);
+       });
+      console.log(data3)
+ },[status])
+
   useEffect ( () =>  {
+
     axios.post('/api/detail',{slug1: slug1,slug2:slug2})
         .then(response => {
           console.log(response);
-          setData(response.data)
+
+          setData2(response.data)
 
         })
         .catch(error => {
            console.error('There was an error!', error);
         });
-
+console.log(data2)
   },[])
   return (
-    <div>
-      {slug1}{slug2}
+    <div>DEBUG  {slug1} и {slug2}
 
-        { data && data.result.map((item)=>
+        { data2 && data2.result.map((data2item)=>
 
-        <div key={item.name}>
+        <div key={data2item.name}>
 
 
 
      <Typography variant="h5" color="inherit" component="div">
-    {item.name}
+    {data2item.name}
     </Typography>
     <Box
     sx={{
@@ -372,7 +326,7 @@ function Equations() {
 
     >
 
-  {item.text}
+  {data2item.text}
 
 
 
@@ -380,13 +334,13 @@ function Equations() {
 
     <Box sx={{ width: '100%' }}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+            <Tabs value={tabvalue} onChange={handleChange} aria-label="basic tabs example">
               <Tab label="Калькулятор" {...a11yProps(0)} />
               <Tab label="Инструкция" {...a11yProps(1)} />
               <Tab label="Теория" {...a11yProps(2)} />
             </Tabs>
           </Box>
-          <TabPanel value={value} index={0}>
+          <TabPanel value={tabvalue} index={0}>
   <p>формула
 
   <Box
@@ -399,7 +353,7 @@ function Equations() {
     autoComplete="off"
   >
 
-    { item.calculator.form.map((item4)=>
+    { data2item.calculator.form.map((item4)=>
     <FormControl key={item4.input} variant="standard">
       <InputLabel htmlFor="component-simple">{item4.input}</InputLabel>
       <Input type="number" id={item4.input} value={newState[item4.input]}
@@ -417,16 +371,24 @@ function Equations() {
 
   </Box>
   </p>
-  <p>a={newState && <p>
+
+  <p>DEBUG {newState && <p>
     {JSON.stringify(newState)}
     </p>}
+
   </p>
-  <p>a={newState['a'] && <p>{newState['a']}</p>}</p>
+
+
+  { data3 && data3.result.result_text.map((data3item)=>
+    <div key={data3item.id}>
+    <p><InlineMath  math={data3item.text}/></p>
+    </div>
+  )}
 
 
           </TabPanel>
-          <TabPanel value={value} index={2}>
-              { item.theory.map((item2)=>
+          <TabPanel value={tabvalue} index={2}>
+              { data2item.theory.map((item2)=>
 
                   <div key={item2.blk_id}>
                   <Box
@@ -470,7 +432,7 @@ function Equations() {
                    </div>
               )}
           </TabPanel>
-          <TabPanel value={value} index={1}>
+          <TabPanel value={tabvalue} index={1}>
             instruction
           </TabPanel>
         </Box>
