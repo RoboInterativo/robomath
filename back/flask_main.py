@@ -61,6 +61,7 @@ def calculate(slug1,slug2,params):
                         'x2':x2
                         }
             else:
+                x1=x2=0
                 result={'a':a,
                         'b':b,
                         'c':c,
