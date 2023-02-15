@@ -22,7 +22,7 @@ USER 1001
 RUN . /opt/venv/bin/activate &&\
     pip install pip --upgrade &&\
     pip install -r  /opt/requirements.txt &&\
-    echo ". /opt/venv/bin/activate && gunicorn flask_main:app" >/opt/run.sh &&\
+    echo ". /opt/venv/bin/activate && gunicorn --bind 0.0.0.0:8000 flask_main:app" >/opt/run.sh &&\
     chmod +x /opt/run.sh
 
 CMD /opt/run.sh
