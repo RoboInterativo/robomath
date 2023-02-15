@@ -23,4 +23,5 @@ RUN . /opt/venv/bin/activate &&\
     pip install -r  /opt/requirements.txt &&\
     echo ". /opt/venv/bin/activate && gunicorn flask_main:app" >/opt/run.sh &&\
     chmod +x /opt/run.sh
-CMD ["/opt/run.sh"]
+
+CMD /opt/run.sh
