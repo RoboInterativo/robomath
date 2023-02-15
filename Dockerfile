@@ -1,4 +1,5 @@
 FROM node:16.14.0 as BUILDER
+EXPOSE 8000
 WORKDIR /opt/front
 COPY front ./
 RUN npm install && npm run build
