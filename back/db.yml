@@ -1,0 +1,155 @@
+article:
+  figures_perimeter:
+    triangle:
+      - name: Решение квадратных уравнений
+        text: |
+          Используя этот онлайн калькулятор для решения квадратных уравнений, вы сможете очень просто и быстро найти корни квадратного уравнения.
+          Воспользовавшись онлайн калькулятором для решения квадратных уравнений, вы получите детальное решение вашего примера, которое позволит понять алгоритм решения задач и закрепить пройденный на уроках материал.
+        calculator:
+          form:
+            - input: a
+            - input: b
+            - input: c
+          result_text:
+            - id: 1
+              type: math
+              text: |
+                a={{a}}\\
+                b={{b}}\\
+                c={{c}}
+
+            - id: 4
+              type: block_math
+
+              text: p = {a + b + c \over 2} = { {{a}} + {{b}} + {{c}} \over 2} = {{p}}
+            - id: 3
+              type: block_math
+              text: S = \sqrt{ p(p - a)(p - b)(p - c)} =\sqrt{ {{p}}( {{p}} - {{a}})( {{p}} - {{b}})( {{p}} - {{c}} ) } = {{s}}
+
+
+        theory:
+          - blk_id: 1
+            container:
+            - id: 1
+              type: text
+
+              text: |
+                Формула Герона Площадь треугольника ABC можно найти зная длины его сторон a, b и c, воспользовавшись формулой Герона
+            - id: 2
+              type: block_math
+              text: "S = \\sqrt{p(p - a)(p - b)(p - c)}"
+            - id: 3
+              type: block_math
+
+              text: "p = {a + b + c \\over 2}"
+
+
+  equation:
+    quadratic:
+      - name: Решение квадратных уравнений
+        text: |
+          Используя этот онлайн калькулятор для решения квадратных уравнений, вы сможете очень просто и быстро найти корни квадратного уравнения.
+          Воспользовавшись онлайн калькулятором для решения квадратных уравнений, вы получите детальное решение вашего примера, которое позволит понять алгоритм решения задач и закрепить пройденный на уроках материал.
+        calculator:
+          form:
+            - input: a
+            - input: b
+            - input: c
+          result_text:
+            - id: 1
+              type: math
+              text: |
+                a={{a}}\\
+                b={{b}}\\
+                c={{c}}
+
+            - id: 2
+              type: math
+              text: |
+                x = {-b \pm \sqrt{D} \over 2a}
+
+            - id: 3
+              type: math
+              text: "D = b^2 - 4ac=  ({{b}})^2-4*({{a}})   * ({{c}})   = {{d}}"
+
+
+            - id: 4
+              type: math
+              text: "{{result_note}}"
+
+            - id: 5
+              type: math
+              text: "x1={{x1}}"
+            - id: 6
+              type: math
+              text: "x2={{x2}}"
+
+
+
+        theory:
+          - blk_id: 1
+            container:
+            - id: 1
+              type: text
+
+              text: |
+                Квадратное уравнение — это уравнение вида
+            - id: 2
+              type: math
+              text: "ax^2 + bx + c = 0,"
+            - id: 3
+              type: math
+
+              text: "где\\ a \\neq 0"
+          - blk_id: 2
+            container:
+            - id: 1
+              type: math
+
+              text: |
+                \textbf{Решить\ квадратное\ уравнение\ } означает\ найти\ все\ значения\ x_{i},\ при\ которых\ будет\ выполняться\ равенств\
+
+
+            - id: 2
+              type: block_math
+
+              text: "ax^2_{i} + bx_{i} + c = 0."
+          - blk_id: 3
+            container:
+            - id: 1
+              type: math
+              text: |
+                Для\ решения\ квадратного\ уравнения\ необходимо\ посчитать\ дискриминант\ многочлена
+
+            - id: 2
+              type: block_math
+              text:  D = b^2 - 4ac.
+            - id: 3
+              type: math
+              text: |
+                \bullet\ Если\ D > 0, то\ уравнение\ имеет\ два\ различных\ вещественных\ корня.\\
+                \bullet\ Если\ D = 0, то\ уравнение\ имеет\ один\ корень\ (x_{1} = x_{2}).\\
+                \bullet\ Если\ D < 0, то\ уравнение\ не\ имеет\ вещественных\ корней.
+
+
+            - id: 3
+              type: block_math
+              text: |
+                x = {-b \pm \sqrt{D} \over 2a}
+
+
+
+              #text: "x = \\cfrac{-b \\pm \\sqrt{D}} {2a}  ,    D = b^2 - 4ac"
+categories:
+  - name: Онлайн калькуляторы. Решение уравнcений
+    slug:  equation
+    sub:
+    - name: Решение квадратных уравнений
+      slug: quadratic
+
+
+  - name: Онлайн калькуляторы. Площадь геометрических фигур
+    slug: figures_perimeter
+    sub:
+    - name: Площадь треугольника
+      slug: triangle
